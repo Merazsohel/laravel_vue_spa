@@ -18,6 +18,7 @@
                     <div class="btn-group" role="group">
                         <router-link :to="{name: 'edit', params: { id: book.id }}" class="btn btn-primary">Edit
                         </router-link>
+                       <!-- <button class="btn btn-danger" @click="deleteBook(book.id)">Delete</button>-->
                         <button class="btn btn-danger" @click="deleteBook(book.id)">Delete</button>
                     </div>
                 </td>
@@ -42,7 +43,7 @@
                 });
         },
         methods: {
-            deleteBook(id) {
+            /*deleteBook(id) {
                 this.axios
                     .delete(`http://localhost:8001/api/book/delete/${id}`)
                     .then(response => {
@@ -50,6 +51,29 @@
                         this.books.splice(i, 1);
                         this.$toastr.s("Successfully Deleted");
                     });
+            },*/
+
+            deleteBook(id) {
+                this.$swal({
+                    title: 'Are you sure?',
+                    text: 'You can\'t revert your action',
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes Delete it!',
+                    cancelButtonText: 'No, Keep it!',
+                    showCloseButton: true,
+                    showLoaderOnConfirm: true
+                }).then((result) => {
+                    if (result.value) {
+                        this.axios.delete(`http://localhost:8001/api/book/delete/${id}`);
+                        let i = this.books.map(item => item.id).indexOf(id); // find index of your object
+                        this.books.splice(i, 1);
+
+                        this.$swal('Deleted', 'Successfully deleted', 'success')
+                    } else {
+                        this.$swal('Cancelled', 'Your data is still available', 'info')
+                    }
+                })
             }
         }
     }

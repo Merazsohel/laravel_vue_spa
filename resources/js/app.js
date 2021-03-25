@@ -6,7 +6,10 @@ import VueRouter from 'vue-router';
 import VueAxios from 'vue-axios';
 import axios from 'axios';
 import {routes} from './routes';
+import VueSweetalert2 from 'vue-sweetalert2/dist/index';
+import 'sweetalert2/dist/sweetalert2.min.css';
 
+Vue.use(VueSweetalert2);
 Vue.use(VueRouter);
 Vue.use(VueAxios, axios);
 Vue.use(VueToastr, {});
@@ -31,6 +34,5 @@ new Vue({
             "This Message From Toastr Plugin\n You can access this plugin : <font color='yellow'>this.$toastr</font>"
         );
     }
+
 });
-
-
